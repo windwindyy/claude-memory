@@ -1,0 +1,6 @@
+- [user-role](user_role.md) — 射频/微波工程师，使用 ADS 仿真，需要脚本和数据处理协助
+- [feedback-style](feedback_style.md) — 中文交流，希望 Claude 主动保存记忆，无需显式提醒
+- [user-music](user_music.md) — 喜欢听歌
+- [permission-preference](permission_preference.md) — 不涉及系统文件删改的操作直接允许，减少权限提示
+- [conversation-style](feedback_conversation_style.md) — 非技术话题用聊天语气，简短回复
+- [feedback-skill-discipline](feedback_skill_discipline.md) — 创造性任务前必须检查并调用 superpowers 流程技能，不要跳过直接动手
