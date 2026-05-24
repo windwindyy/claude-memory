@@ -1,4 +1,5 @@
-- [user-role](user_role.md) — 射频/微波工程师，使用 ADS 仿真，需要脚本和数据处理协助
+- [user-role](user_role.md) — 硬件工程师，从事射频/微波工程，使用 ADS 仿真，需要脚本和数据处理协助
+- [course-design](project_course_design.md) — 移动通信课程设计：VHF无线通信系统MATLAB仿真，第2组，逐步搭建
 - [feedback-style](feedback_style.md) — 中文交流，希望 Claude 主动保存记忆，无需显式提醒
 - [user-music](user_music.md) — 喜欢听歌
 - [permission-preference](permission_preference.md) — 不涉及系统文件删改的操作直接允许，减少权限提示
