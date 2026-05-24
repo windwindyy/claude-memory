@@ -6,3 +6,4 @@
 - [conversation-style](feedback_conversation_style.md) — 非技术话题用聊天语气，简短回复
 - [feedback-skill-discipline](feedback_skill_discipline.md) — 创造性任务前必须检查并调用 superpowers 流程技能，不要跳过直接动手
 - [memory-git-sync](memory-git-sync.md) — Git 私有仓库 + SessionStart/Stop hooks 实现两台电脑间记忆自动同步
+- [read-memories](feedback_read_memories.md) — 每次新对话开始时必须主动读取所有记忆文件，不被动等待
