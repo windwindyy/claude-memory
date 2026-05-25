@@ -48,8 +48,12 @@ metadata:
 | 5 | 符号调制 | `modulate.m` / `demodulate.m` | QPSK / 16QAM / 64QAM |
 | 6 | OFDM 调制 | `ofdm_config.m` / `ofdm_tx_symbol.m` / `ofdm_assemble_frame.m` | 512 FFT, CP=8, DC+保护带(55+55), 块状导频, PN 训练序列 |
 | 7 | 信道模型 | `vhf_channel.m` / `rayleigh_fading.m` | 5径 [0,0.2,0.5,1.0,2.0]μs, fd=5.56Hz, 分数延迟(interp1), 滤波高斯噪声 Doppler 谱 |
+| 8 | 接收同步 | `ofdm_time_sync.m` / `ofdm_freq_sync.m` | 互相关时间同步 + CP 相位差频偏估计(多符号平均) |
 
 ## 测试与可视化
+
+- `test_all.m` — 11 节逐步调试
+- figure(1): bit 流水线 5 行 stem | figure(2): 信道 PDP + 包络 | figure(3): QPSK I/Q stem | figure(4): OFDM 时域(光滑曲线) + 频域分配 | figure(5): 同步相关峰 + CP 对比
 
 - `test_all.m` — 总测试脚本，`%%` 分节
 - 可视化嵌入 test_all 各节中，用 stem 竖线分色展示 bit 流变化
@@ -60,8 +64,9 @@ metadata:
 
 | # | 模块 |
 |---|------|
-| 7 | 信道模型 (VHF 多径 + 多普勒) |
-| 8 | 接收端: 时间同步 + 频率同步 |
+| 7 | ~~信道模型~~ ✓ |
+| 8 | ~~接收同步~~ ✓ |
+| 9 | 信道估计 (块状导频, 400子载波估计 H_k) |
 | 9 | 信道估计 (块状导频, 400子载波估计 H_k) |
 | 10 | 均衡 (ZF/MMSE) |
 | 11 | 解调 → 解交织 → 译码 → CRC 校验 |
