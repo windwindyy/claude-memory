@@ -47,6 +47,7 @@ metadata:
 | 4 | 交织 | `interleave.m` / `deinterleave.m` | 随机交织 (固定种子 rng(42)), 跨帧全排列 |
 | 5 | 符号调制 | `modulate.m` / `demodulate.m` | QPSK / 16QAM / 64QAM |
 | 6 | OFDM 调制 | `ofdm_config.m` / `ofdm_tx_symbol.m` / `ofdm_assemble_frame.m` | 512 FFT, CP=8, DC+保护带(55+55), 块状导频, PN 训练序列 |
+| 7 | 信道模型 | `vhf_channel.m` / `rayleigh_fading.m` | 5径 [0,0.2,0.5,1.0,2.0]μs, fd=5.56Hz, 分数延迟(interp1), 滤波高斯噪声 Doppler 谱 |
 
 ## 测试与可视化
 
