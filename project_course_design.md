@@ -58,22 +58,21 @@ metadata:
 | figure(2) | 2 行 — 功率延迟谱 + 收发信号包络对比 |
 | figure(3) | 2 行 stem — QPSK/16QAM/64QAM 的 I/Q 分量 |
 | figure(4) | 2 行 — OFDM 时域(光滑曲线,CP红+IFFT蓝) + 频域子载波数据 |
-| figure(5) | 2 行 — 时间同步相关峰 + CP vs IFFT尾部频偏对比 |
+| figure(5) | **3 行** — 时间同步相关峰 + **频偏纠正前各符号CP-Tail相位差(红)** + **频偏纠正后各符号CP-Tail相位差(蓝)** |
 | figure(6) | 2 行 — 复基带频谱(0Hz居中) + 搬移到100MHz载波的等效通带频谱 |
+| figure(7) | 柱状图 — BER/FER 结果 |
 
 - 全局参数区可切换调制方式 (`mod_type = 'QPSK'|'16QAM'|'64QAM'`)
+- 全局参数 `cfo_hz = 10` 控制 CFO 注入 (0=关闭, 模拟 0.1ppm@100MHz)
 - 所有 fprintf 输出使用英文，避免 MATLAB 控制台中文乱码
 
 ## 待实现模块
 
 | # | 模块 |
 |---|------|
-| 9 | 载波调制可视化 | `test_all.m` §9 | figure(6) — 基带/通带 PSD 对比 |
-| 10 | MMSE 信道估计 | `channel_estimate_mmse.m` | LS初估 + MMSE平滑 (R_HH from PDP, σ² from guard band) |
-| 11 | ZF 均衡 | `channel_equalize.m` | 支持 ZF/MMSE 切换 |
-| 12 | OFDM 接收解调 | `ofdm_rx_demod.m` | 去CP + FFT + 提取有效子载波 |
-| 13 | RX 译码+校验 | `channel_decode.m` / `crc16_check.m` | Viterbi 硬判决 + CRC-16 逐帧验证 |
-| 14 | BER/FER 统计 | `test_all.m` §12 | figure(7) — 柱状图, 打印 BER/FER |
+| 15 | SNR-BER 曲线 (遍历多 SNR 点, 画 BER vs SNR) |
+| 16 | MIMO 扩展 (2×2, 正交导频 LS) |
+| 17 | GUI 封装 |
 
 ## 接收端已实现模块
 
@@ -97,8 +96,11 @@ metadata:
 - **调制用 bi2de/de2bi 而非 qammod 'bit' 模式**: 'bit' 模式在 2D/1D 矩阵间转换有对齐陷阱，整数方式更可靠
 - **多普勒 5.6 Hz 很小**: Δf=1.95 kHz ≫ fd，ICI 可忽略
 - **时间同步用互相关**: 本地重建训练符号(PN序列,rng=7)与接收信号做 xcorr，峰值定位帧起点
-- **频率同步用 CP 相位差**: 多符号平均 angle(Σ tail·cp*)/(2π·N_fft/fs)，估计 CFO 并乘以 exp(-j2πΔf t) 纠正
-- **PPT 汇报文件**: `汇报_VHF_OFDM_系统设计.pptx` (15 页, 系统框图+各环节详情)
+- **频率同步用 CP 相位差, 跳过多径ISI污染样本**: 多径最大时延 2μs 污染 CP 前 2 样本，跳过(cp_skip=2) 只用干净 6 样本做 angle(Σ tail·cp*)/(2π·N_fft/fs)
+- **CFO 注入模拟晶振偏差**: 全局参数 cfo_hz=10Hz (0.1ppm@100MHz)，信道输出后注入 exp(j2π·cfo·t)，频率同步模块再估计并纠正
+- **信道估计用 MMSE 而非 LS**: 军用需抗干扰，利用已知 PDP 构建频域相关矩阵 R_HH，从保护带估计 σ²，MMSE 抑制噪声
+- **均衡用 ZF**: 逐子载波除法，均衡模块支持切换到 MMSE（需传入 σ²）
+- **PPT 汇报文件**: `汇报_VHF_OFDM_系统设计.pptx` (**19 页, 浅色调 + 4张代码幻灯片**，含 OFDM 调制/同步/信道估计/译码 关键代码)
 
 ## 历史
 
