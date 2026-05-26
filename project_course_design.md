@@ -68,11 +68,26 @@ metadata:
 
 | # | 模块 |
 |---|------|
-| 9 | 载波调制可视化 | `test_all.m` §9 | 复基带→100MHz上变频, PSD对比(figure 6), 仅演示不参与仿真 |
-| 10 | 信道估计 (块状导频, 400子载波估计 H_k) |
-| 11 | 均衡 (ZF/MMSE) |
-| 12 | 解调 → 解交织 → 译码 → CRC 校验 |
-| 13 | BER 统计与分析 |
+| 9 | 载波调制可视化 | `test_all.m` §9 | figure(6) — 基带/通带 PSD 对比 |
+| 10 | MMSE 信道估计 | `channel_estimate_mmse.m` | LS初估 + MMSE平滑 (R_HH from PDP, σ² from guard band) |
+| 11 | ZF 均衡 | `channel_equalize.m` | 支持 ZF/MMSE 切换 |
+| 12 | OFDM 接收解调 | `ofdm_rx_demod.m` | 去CP + FFT + 提取有效子载波 |
+| 13 | RX 译码+校验 | `channel_decode.m` / `crc16_check.m` | Viterbi 硬判决 + CRC-16 逐帧验证 |
+| 14 | BER/FER 统计 | `test_all.m` §12 | figure(7) — 柱状图, 打印 BER/FER |
+
+## 接收端已实现模块
+
+| # | 模块 | 文件 | 参数 |
+|---|------|------|------|
+| 1 | 时间同步 | `ofdm_time_sync.m` | 互相关, PN训练序列(rng=7) |
+| 2 | 频率同步 | `ofdm_freq_sync.m` | CP相位差, 多符号平均 |
+| 3 | MMSE信道估计 | `channel_estimate_mmse.m` | LS初估→MMSE平滑, R_HH from PDP, σ² from guard band |
+| 4 | OFDM解调 | `ofdm_rx_demod.m` | 去CP→512 FFT→提取400有效子载波 |
+| 5 | ZF均衡 | `channel_equalize.m` | 逐子载波除法, 可选MMSE |
+| 6 | 符号解调 | `demodulate.m` | QPSK/16QAM/64QAM 硬判决 |
+| 7 | 解交织 | `deinterleave.m` | 随机解交织(同一perm) |
+| 8 | Viterbi译码 | `channel_decode.m` | K=7 R=1/2 [171,133], tblen=35 |
+| 9 | CRC校验+BER | `crc16_check.m` | 逐帧CRC-16验证, BER/FER统计 |
 
 ## 关键技术决策记录
 
