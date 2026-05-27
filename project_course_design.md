@@ -8,7 +8,7 @@ metadata:
 
 # 移动通信课程设计 — VHF 无线通信系统
 
-## 当前状态 (2026-05-26)
+## 当前状态 (2026-05-27)
 
 **当前电脑**: QIANJUNYANG（另一台 Lenovo1 有旧代码）
 **MATLAB 路径**: `E:\MATLAB\R2024b\bin`
@@ -49,6 +49,7 @@ metadata:
 | 6 | OFDM 调制 | `ofdm_config.m` / `ofdm_tx_symbol.m` / `ofdm_assemble_frame.m` | 512 FFT, CP=8, DC+保护带(55+55), 块状导频, PN 训练序列 |
 | 7 | 信道模型 | `vhf_channel.m` / `rayleigh_fading.m` | 5径 [0,0.2,0.5,1.0,2.0]μs, fd=5.56Hz, 分数延迟(interp1), 滤波高斯噪声 Doppler 谱 |
 | 8 | 接收同步 | `ofdm_time_sync.m` / `ofdm_freq_sync.m` | 互相关时间同步 + CP 相位差频偏估计(多符号平均) |
+| 9 | AWGN 噪声 | `add_awgn.m` | 给定 SNR(dB) 添加复高斯白噪声, 模拟接收机热噪声 |
 
 ## 可视化窗口
 
@@ -61,6 +62,8 @@ metadata:
 | figure(5) | **3 行** — 时间同步相关峰 + **频偏纠正前各符号CP-Tail相位差(红)** + **频偏纠正后各符号CP-Tail相位差(蓝)** |
 | figure(6) | 2 行 — 复基带频谱(0Hz居中) + 搬移到100MHz载波的等效通带频谱 |
 | figure(7) | 柱状图 — BER/FER 结果 |
+| figure(8) | 2 行 semilogy — BER vs SNR + FER vs SNR (ZF vs MMSE 对比) |
+| figure(9) | 2×2 — 均衡前星座图 + ZF均衡星座图 + MMSE均衡星座图 + 信道频响(幅值+相位) |
 
 - 全局参数区可切换调制方式 (`mod_type = 'QPSK'|'16QAM'|'64QAM'`)
 - 全局参数 `cfo_hz = 10` 控制 CFO 注入 (0=关闭, 模拟 0.1ppm@100MHz)
@@ -70,7 +73,6 @@ metadata:
 
 | # | 模块 |
 |---|------|
-| 15 | SNR-BER 曲线 (遍历多 SNR 点, 画 BER vs SNR) |
 | 16 | MIMO 扩展 (2×2, 正交导频 LS) |
 | 17 | GUI 封装 |
 
@@ -87,6 +89,7 @@ metadata:
 | 7 | 解交织 | `deinterleave.m` | 随机解交织(同一perm) |
 | 8 | Viterbi译码 | `channel_decode.m` | K=7 R=1/2 [171,133], tblen=35 |
 | 9 | CRC校验+BER | `crc16_check.m` | 逐帧CRC-16验证, BER/FER统计 |
+| 10 | SNR-BER曲线 | `run_ber_curve.m` | 遍历 SNR 0:2:25 dB, ZF vs MMSE 均衡对比, BER/FER 曲线 + 星座图 |
 
 ## 关键技术决策记录
 
