@@ -89,7 +89,7 @@ metadata:
 | 7 | 解交织 | `deinterleave.m` | 随机解交织(同一perm) |
 | 8 | Viterbi译码 | `channel_decode.m` | K=7 R=1/2 [171,133], tblen=35 |
 | 9 | CRC校验+BER | `crc16_check.m` | 逐帧CRC-16验证, BER/FER统计 |
-| 10 | SNR-BER曲线 | `run_ber_curve.m` | 遍历 SNR 0:2:25 dB, ZF vs MMSE 均衡对比, BER/FER 曲线 + 星座图 |
+| 10 | SNR-BER曲线 | 整合在 `test_all.m` 第13节 | 遍历 SNR 0:2:25 dB, ZF vs MMSE 均衡对比, BER/FER 曲线 + 星座图 |
 
 ## 关键技术决策记录
 
