@@ -8,11 +8,12 @@ metadata:
 
 # 移动通信课程设计 — VHF 无线通信系统
 
-## 当前状态 (2026-05-28)
+## 当前状态 (2026-05-29)
 
 **当前电脑**: QIANJUNYANG
 **MATLAB 路径**: `E:\MATLAB\R2024b\bin`
 **项目路径**: `C:\Users\Qianjunyang\Desktop\vhf_ofdm\`
+**Git 仓库**: 项目目录已初始化为 git repo（待推送到远程）
 
 ## 系统条件（第2组 — VHF）
 
@@ -51,7 +52,7 @@ metadata:
 | 9 | AWGN | `add_awgn.m` | SNR (dB) → 复高斯噪声 |
 | 10 | 时间同步 | `ofdm_time_sync.m` | 互相关, PN训练(rng=7) |
 | 11 | 频率同步 | `ofdm_freq_sync.m` | 频域 training vs pilot 相位差 |
-| 12 | 信道估计 | `channel_estimate_mmse.m` / `channel_estimate_interp.m` | MMSE平滑 + 周期导频插值 |
+| 12 | 信道估计 | `channel_estimate_interp.m` | LS + 滑动平均平滑 (w=8) + 周期导频插值，无先验依赖 |
 | 13 | 均衡 | `channel_equalize.m` | ZF / MMSE 可选 |
 | 14 | 全链路主程序 | `main.m` | 合并 test_all + test_all_mimo，天线方案选择 + 自适应调制 |
 
@@ -62,7 +63,7 @@ metadata:
 | 1 | MIMO帧组装 | `mimo_ofdm_assemble_frame.m` (时分训练+导频, Alamouti编码) |
 | 2 | MIMO信道 | `mimo_channel.m` (4条独立SISO VHF链路) |
 | 3 | MIMO同步 | `ofdm_mimo_sync.m` (双天线时间+频率同步) |
-| 4 | MIMO信道估计 | `mimo_channel_est.m` (时分正交导频, MMSE+插值) |
+| 4 | MIMO信道估计 | `mimo_channel_est.m` (时分正交导频, LS+滑动平均+插值, 无先验) |
 | 5 | Alamouti解码 | `alamouti_decode.m` (2×2合并, 4阶分集) |
 
 ## GUI 应用程序
@@ -112,3 +113,4 @@ metadata:
 - 2026-05-24 决定从基础重新逐步搭建
 - 2026-05-27 完成 SISO + MIMO 全链路、周期导频、频域频偏估计
 - 2026-05-28 GUI 封装、链路观察可视化、打包准备
+- 2026-05-29 合并 test_all/test_all_mimo 为统一 main.m；信道估计改为 LS+滑动平均 (无 PDP 先验)；自适应调制 (SNR+天线方案自动选)；多维可视化修复 (星座点自适应、交织burst追踪、BER纵轴对数、零值标注)
