@@ -53,7 +53,7 @@ metadata:
 | 11 | 频率同步 | `ofdm_freq_sync.m` | 频域 training vs pilot 相位差 |
 | 12 | 信道估计 | `channel_estimate_mmse.m` / `channel_estimate_interp.m` | MMSE平滑 + 周期导频插值 |
 | 13 | 均衡 | `channel_equalize.m` | ZF / MMSE 可选 |
-| 14 | SNR-BER曲线 | `test_all.m` | 遍历多SNR, 软硬判决对比 |
+| 14 | 全链路主程序 | `main.m` | 合并 test_all + test_all_mimo，天线方案选择 + 自适应调制 |
 
 ## MIMO 2×2 Alamouti 模块
 
@@ -70,8 +70,10 @@ metadata:
 | 文件 | 功能 |
 |------|------|
 | `vhf_ofdm_app.m` | 程序化 GUI：参数配置 + SNR扫描(BER/FER) + 链路观察(全可视化) |
-| `main.m` | 入口：命令行菜单选择 SISO/MIMO/GUI |
-| `run_test_wrapper.m` | GUI调用 test_all 的桥接 (传递 SNR 参数) |
+| `main.m` | 统一入口：SISO/MIMO选择 + 自适应调制(QPSK/16QAM/64QAM) + 全可视化 |
+| `run_test_wrapper.m` | GUI调用 main() 的桥接 (传递天线方案/SNR/N参数) |
+| `test_all.m` | [已合并] SISO单点测试（保留备用） |
+| `test_all_mimo.m` | [已合并] MIMO单点测试（保留备用） |
 | `app2.mlapp` | App Designer 版本 (实验性) |
 
 ## 关键技术决策
