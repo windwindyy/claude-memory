@@ -51,7 +51,7 @@ metadata:
 | 8 | 信道模型 | `vhf_channel.m` / `rayleigh_fading.m` | 5径, fd=5.56Hz |
 | 9 | AWGN | `add_awgn.m` | SNR (dB) → 复高斯噪声 |
 | 10 | 时间同步 | `ofdm_time_sync.m` | 互相关, PN训练(rng=7) |
-| 11 | 频率同步 | `ofdm_freq_sync.m` | 频域 training vs pilot 相位差 |
+| 11 | 频率同步 | `ofdm_freq_sync.m` | Schmidl-Cox 时域粗估计 + 导频频域精跟踪 |
 | 12 | 信道估计 | `channel_estimate_interp.m` | LS + 滑动平均平滑 (w=8) + 周期导频插值，无先验依赖 |
 | 13 | 均衡 | `channel_equalize.m` | ZF / MMSE 可选 |
 | 14 | 全链路主程序 | `main.m` | 合并 test_all + test_all_mimo，天线方案选择 + 自适应调制 |
@@ -79,7 +79,7 @@ metadata:
 
 ## 关键技术决策
 
-- **频域频偏估计**：用 training 和 pilot 符号的频域相位差，替代时域 CP 方法，避免多径交叉干扰
+- **两级频偏估计**：Schmidl-Cox 时域粗估计（训练符号两半自相关，范围 ±1.95 kHz）+ 导频频域精跟踪（相邻导频相位差），替代原有频域单级估计
 - **软判决**：QPSK 直接从 I/Q 分量取软值 (±1)，Viterbi `unquant` 模式，比硬判决增益 2-3 dB
 - **MMSE 均衡 + 软判决**：天然置信度加权，深衰落子载波被压制→软值接近 0→Viterbi 不给权重
 - **周期导频**：每 40 符号插入导频 (20.8ms < Tc/4)，MMSE 估计 + 线性插值，解决信道老化
